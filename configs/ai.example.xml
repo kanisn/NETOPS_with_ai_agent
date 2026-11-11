@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ai version="1" active_profile="luna6">
+  <!-- Copy to ai.local.xml. That file is ignored by Git. All AI options live here. -->
+  <providers>
+    <provider id="openai"><api_key env="OPENAI_API_KEY"></api_key></provider>
+    <provider id="anthropic"><api_key env="ANTHROPIC_API_KEY"></api_key></provider>
+  </providers>
+  <profiles>
+    <profile id="luna6" provider="openai" model="gpt-6-luna" reasoning_effort="low" max_output_tokens="1800" input_usd_per_million="0.10" cached_input_usd_per_million="0.01" output_usd_per_million="0.50" cache_write_usd_per_million="0.125" />
+    <profile id="economy" provider="openai" model="gpt-5.4-mini" reasoning_effort="low" max_output_tokens="1800" input_usd_per_million="0.75" cached_input_usd_per_million="0.075" output_usd_per_million="4.5" />
+    <profile id="sonnet5" provider="anthropic" model="claude-sonnet-5" reasoning_effort="low" max_output_tokens="1800" input_usd_per_million="2" cached_input_usd_per_million="0.2" output_usd_per_million="10" />
+  </profiles>
+  <!-- Empty profile uses active_profile. Set either agent separately for comparisons. -->
+  <agents operation_profile="" diagnosis_profile="" />
+  <requests timeout_seconds="90" schema_retries="2" max_input_bytes="60000" />
+  <budget cumulative_usd="5.00" ledger_path="../local-data/cost-ledger.sqlite" />
+</ai>

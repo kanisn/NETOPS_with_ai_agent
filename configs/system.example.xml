@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<system version="1">
+  <paths output_root="local-data/runs" runbooks="knowledge/runbooks" prompts="prompts" />
+  <network host="127.0.0.1" tool_port="0" diagnosis_port="0" startup_timeout_seconds="30" request_timeout_seconds="120" />
+  <workflow diagnosis_tool_budget="8" operation_context_steps="6" max_agent_steps="12" read_retries="2" approval="auto" memory_enabled="true" memory_k="3" runbook_k="3" />
+  <experiment seeds="1,2,3,4,5" faults="W1,W2,W3,W4,W5,N0" difficulty="L1" target="HOST-001" />
+  <protection mode="D0" />
+</system>

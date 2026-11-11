@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccs-netops-testbed"
+version = "0.1.0"
+description = "Protection-free, instrumented two-agent NetOps baseline"
+requires-python = ">=3.11"
+dependencies = ["mcp==2.2.0", "a2a-sdk[http-server]==1.1.5", "openai==3.19.2", "anthropic==1.8.0", "httpx==0.28.1", "pydantic==2.13.5", "uvicorn==0.54.0", "defusedxml==0.7.1"]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1", "pytest-asyncio==1.4.0"]
+
+[project.scripts]
+ccs = "ccs.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+addopts = "-p no:cacheprovider"

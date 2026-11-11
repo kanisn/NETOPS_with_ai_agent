@@ -1,0 +1,54 @@
+# Local AI credentials and machine-specific configuration.
+/configs/ai.local.xml
+/configs/system.xml
+*.local.xml
+/.ccs-python
+.env*
+!.env.example
+!.env.template
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Experiment output, local state, and runtime data.
+/runs/
+/outputs/
+/logs/
+/local-data/
+/05.Testbed_output/
+*.sqlite*
+*.sqlite3*
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.log
+*.pid
+*.pid.lock
+*.writing
+
+# Python environments, caches, and build products.
+/.venv/
+/venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+/build/
+/dist/
+
+# Editor and operating-system metadata.
+.idea/
+.vscode/
+.vs/
+Desktop.ini
+Thumbs.db
+
+# Historical local execution evidence contains private paths/environment details.
+/docs/D0_LIVE_20261111.md
+/docs/DIFFICULTY_COMPARISON_20261111.md
+/docs/MININET_REVIEW_20261111.md
+/docs/REVIEW_20261110.md

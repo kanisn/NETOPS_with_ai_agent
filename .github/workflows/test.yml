@@ -1,0 +1,36 @@
+name: Offline baseline checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Prepare isolated runner temp paths and keyless configs
+        shell: pwsh
+        run: |
+          $runtimeRoot = Join-Path $env:RUNNER_TEMP 'ccs-testbed'
+          $workingRoot = Join-Path $runtimeRoot 'working'
+          $testWorkingRoot = Join-Path $runtimeRoot 'test-working'
+          $scratchRoot = Join-Path $runtimeRoot 'scratch'
+          New-Item -ItemType Directory -Path $workingRoot, $testWorkingRoot, $scratchRoot, (Join-Path $scratchRoot 'pip-cache') -Force | Out-Null
+          'PYTHONDONTWRITEBYTECODE=1' >> $env:GITHUB_ENV
+          "CCS_WORKING_ROOT=$workingRoot" >> $env:GITHUB_ENV
+          "CCS_TEST_WORKING_ROOT=$testWorkingRoot" >> $env:GITHUB_ENV
+          "TEMP=$scratchRoot" >> $env:GITHUB_ENV
+          "TMP=$scratchRoot" >> $env:GITHUB_ENV
+          "TMPDIR=$scratchRoot" >> $env:GITHUB_ENV
+          "PIP_CACHE_DIR=$(Join-Path $scratchRoot 'pip-cache')" >> $env:GITHUB_ENV
+          'OPENAI_API_KEY=' >> $env:GITHUB_ENV
+          'ANTHROPIC_API_KEY=' >> $env:GITHUB_ENV
+          if (-not (Test-Path -LiteralPath 'configs/ai.local.xml')) { Copy-Item 'configs/ai.example.xml' 'configs/ai.local.xml' }
+          if (-not (Test-Path -LiteralPath 'configs/system.xml')) { Copy-Item 'configs/system.example.xml' 'configs/system.xml' }
+      - run: python -m pip install -r requirements.lock
+      - run: python tools/generate_reference.py --check
+      - run: python tools/check_repository.py
+      - shell: pwsh
+        run: python -B -m pytest -q --basetemp "$env:CCS_TEST_WORKING_ROOT\pytest-work"
